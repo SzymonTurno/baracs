@@ -47,9 +47,11 @@ jobs:
   publish-dry-run:
     name: Publish (dry run)
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package: [ccfg, tiny-regex]
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
-      - run: cargo publish --package ccfg --dry-run
-      - run: cargo publish --package tiny-regex --dry-run --no-verify
+      - run: cargo publish --package ${{ matrix.package }} --dry-run
