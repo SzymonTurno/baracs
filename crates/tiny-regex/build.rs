@@ -23,18 +23,4 @@ fn main() {
     println!("cargo:rerun-if-changed=src/c_src/re_memo.h");
     build.file("src/c_src/re.c").compile("tiny-regex-c");
 
-    // Generate Rust FFI bindings from re.h.
-    let out_dir = std::env::var("OUT_DIR").unwrap();
-    bindgen::Builder::default()
-        .header("src/c_src/re.h")
-        .clang_arg("-Isrc/c_src")
-        .allowlist_type("regex_t")
-        .allowlist_function("re_compile")
-        .allowlist_function("re_matchp")
-        .use_core()
-        .parse_callbacks(Box::new(bindgen::CargoCallbacks::new()))
-        .generate()
-        .expect("bindgen failed on src/c_src/re.h")
-        .write_to_file(format!("{out_dir}/bindings.rs"))
-        .expect("failed to write bindings.rs");
 }

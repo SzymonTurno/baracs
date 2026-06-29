@@ -16,6 +16,9 @@ tiny-regex = "0.1"
 
 Requires Rust 1.77 or later. `no_std`, no `alloc` — all storage lives on the stack.
 
+The crate compiles a small C file as part of its build, so a C compiler
+(`gcc`, `clang`, or MSVC) must be available. No other native tooling is needed.
+
 ## Quick start
 
 ```rust

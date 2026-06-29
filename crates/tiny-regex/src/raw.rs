@@ -8,7 +8,7 @@
 
 use core::ffi::CStr;
 
-include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
+include!("bindings.rs");
 
 /// Default node capacity: max pattern symbols in a compiled regex.
 pub const DEFAULT_NODES: usize = 32;
