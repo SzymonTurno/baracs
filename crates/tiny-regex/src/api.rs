@@ -4,7 +4,7 @@ use core::ffi::CStr;
 
 use crate::raw;
 
-pub use crate::raw::{RegexBuf, DEFAULT_CCL, DEFAULT_MATCH_TEXT_LEN, DEFAULT_MEMO, DEFAULT_NODES};
+pub use crate::raw::{RegexBuf, DEFAULT_CCL, DEFAULT_MEMO, DEFAULT_NODES};
 
 /// `Regex` with the default node and character-class buffer sizes (32 nodes, 64-byte CCL,
 /// 256-byte memo table).
@@ -23,22 +23,27 @@ pub type TinyRegex = raw::RegexBuf<DEFAULT_NODES, DEFAULT_CCL, 0>;
 /// offsets [`start`][Match::start] and [`end`][Match::end] index into the
 /// original haystack passed to the search call.
 pub struct Match<'a> {
+    bytes: &'a [u8],
     start: usize,
     end: usize,
-    _marker: core::marker::PhantomData<&'a CStr>,
 }
 
 impl<'a> Match<'a> {
-    /// Byte offset of the first character of the match within the haystack.
+    /// Byte offset of the first byte of the match within the haystack.
     pub fn start(&self) -> usize {
         self.start
     }
 
-    /// Byte offset one past the last character of the match within the haystack.
+    /// Byte offset one past the last byte of the match within the haystack.
     ///
     /// For a zero-length match (e.g. `$` at end of string) `end == start`.
     pub fn end(&self) -> usize {
         self.end
+    }
+
+    /// The matched bytes as a slice of the original haystack.
+    pub fn as_bytes(&self) -> &'a [u8] {
+        self.bytes
     }
 }
 
@@ -79,10 +84,12 @@ impl<const N: usize, const CCL: usize, const MEMO: usize> raw::RegexBuf<N, CCL, 
         if idx < 0 {
             return None;
         }
+        let start = idx as usize;
+        let end = start + matchlen as usize;
         Some(Match {
-            start: idx as usize,
-            end: idx as usize + matchlen as usize,
-            _marker: core::marker::PhantomData,
+            bytes: &haystack.to_bytes()[start..end],
+            start,
+            end,
         })
     }
 

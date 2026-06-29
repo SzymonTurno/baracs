@@ -1,3 +1,9 @@
+//! Low-level compiled-regex type and FFI bindings.
+//!
+//! Most users should use [`Regex`][crate::Regex] or
+//! [`RegexBuf`][crate::RegexBuf] from the crate root rather than importing
+//! from this module directly. The module is public so that `RegexBuf<N, CCL,
+//! MEMO>` with non-default parameters can be constructed without a glob import.
 #![allow(non_camel_case_types, non_snake_case, non_upper_case_globals)]
 
 use core::ffi::CStr;
@@ -8,7 +14,10 @@ include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
 pub const DEFAULT_NODES: usize = 32;
 /// Default character-class buffer size in bytes.
 pub const DEFAULT_CCL: usize = 64;
-/// Maximum text offset tracked per node in the memo table.
+/// Text-offset dimension used to compute [`DEFAULT_MEMO`].
+///
+/// Useful when sizing a custom `MEMO` for non-default `N`:
+/// `MEMO = (N * DEFAULT_MATCH_TEXT_LEN + 7) / 8`.
 pub const DEFAULT_MATCH_TEXT_LEN: usize = 64;
 /// Memo table size (bytes) for the default node and text-length capacities.
 ///
@@ -90,7 +99,8 @@ impl<const N: usize, const CCL: usize, const MEMO: usize> RegexBuf<N, CCL, MEMO>
 
     /// Recompile this `RegexBuf` with a new `pattern`, reusing existing storage.
     ///
-    /// Returns `Some` on success.  On failure returns `None` — `self` is dropped.
+    /// Returns `Some` on success. On failure returns `None` and `self` is
+    /// dropped — the previous compiled pattern is lost.
     pub fn recompile(mut self, pattern: &CStr) -> Option<RegexBuf<N, CCL, MEMO>> {
         if Self::compile_into(&mut self.re_nodes, &mut self.ccl, pattern) {
             Some(self)
