@@ -1,0 +1,36 @@
+[package]
+name = "tiny-regex"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.77"
+license = "Apache-2.0"
+description = "A no_std, no alloc regex engine for embedded systems. ~2.5 KB, all storage on the stack."
+keywords = ["regex", "no-std", "embedded", "zephyr", "pattern-matching"]
+categories = ["text-processing", "no-std", "embedded"]
+repository = "https://github.com/SzymonTurno/baracs"
+documentation = "https://docs.rs/tiny-regex"
+readme = "README.md"
+
+
+[features]
+# Compile re.c with LLVM source-based coverage instrumentation.
+# Use with: cargo llvm-cov --lib --features coverage --html
+coverage = []
+
+[dev-dependencies]
+criterion   = { version = "0.5", features = ["html_reports"] }
+proptest    = "1"
+regex-lite  = "0.1"
+
+[build-dependencies]
+cc      = "1"
+ccfg    = { path = "../ccfg", version = "0.1", features = ["build"] }
+bindgen = "0.70"
+
+[[bench]]
+name = "regex"
+harness = false
+
+[[bench]]
+name = "vs_regex_lite"
+harness = false

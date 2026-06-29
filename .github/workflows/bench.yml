@@ -1,0 +1,23 @@
+name: Bench
+
+on:
+  workflow_dispatch:
+
+jobs:
+  bench:
+    name: Bench (regex)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - run: make bench
+
+  bench-vs:
+    name: Bench (vs regex-lite)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - run: make bench-vs

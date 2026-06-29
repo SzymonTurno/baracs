@@ -1,0 +1,14 @@
+[workspace]
+
+[package]
+# This must be rustapp — Zephyr's rust_cargo_application() links librustapp.a.
+name = "rustapp"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["staticlib"]
+
+[dependencies]
+tiny-regex = { path = "../../../../crates/tiny-regex" }
+zephyr     = "0.1.0"

@@ -1,0 +1,18 @@
+[package]
+name = "ccfg"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.77"
+license = "Apache-2.0"
+description = "Build-script helpers for crates that compile C code via the cc crate"
+keywords = ["build-script", "embedded", "zephyr", "c", "coverage"]
+categories = ["development-tools::build-utils", "embedded"]
+repository = "https://github.com/SzymonTurno/baracs"
+documentation = "https://docs.rs/ccfg"
+readme = "README.md"
+
+[dependencies]
+cc = { version = "1", optional = true }
+
+[features]
+build = ["dep:cc"]

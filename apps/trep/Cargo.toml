@@ -1,0 +1,11 @@
+[package]
+name = "trep"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "trep"
+path = "src/main.rs"
+
+[dependencies]
+tiny-regex = { path = "../../crates/tiny-regex" }
