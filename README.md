@@ -2,7 +2,7 @@
 
 Rust workspace for bare-metal and `no_std` crates.
 
-## Published crates
+## Crates
 
 | Crate | Description | Docs |
 |-------|-------------|------|
