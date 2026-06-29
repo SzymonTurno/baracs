@@ -1,11 +1,11 @@
 [package]
 name = "tiny-regex"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 rust-version = "1.77"
 license = "Apache-2.0"
 description = "A no_std, no alloc regex engine for embedded systems. ~2.5 KB, all storage on the stack."
-keywords = ["regex", "no-std", "embedded", "zephyr", "pattern-matching"]
+keywords = ["regex", "no-std", "embedded", "bare-metal", "no-alloc"]
 categories = ["text-processing", "no-std", "embedded"]
 repository = "https://github.com/SzymonTurno/baracs"
 documentation = "https://docs.rs/tiny-regex"
